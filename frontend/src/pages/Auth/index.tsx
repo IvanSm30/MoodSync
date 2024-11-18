@@ -9,10 +9,33 @@ type FieldType = {
 
 const Auth = () => {
   const navigate = useNavigate();
+  // const [name, setName] = useState<string | undefined>("");
+  // const [password, setPassword] = useState<string | undefined>("");
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    navigate("/home");
-    console.log(values)
+    // setName(values.username);
+    // setPassword(values.password);
+
+    fetch("/api/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: values.username,
+        password: values.password,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        navigate("/home");
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -31,24 +54,29 @@ const Auth = () => {
       autoComplete="off"
     >
       <Form.Item<FieldType>
-        label="Username"
+        label="Имя пользователя"
         name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
+        rules={[
+          {
+            required: true,
+            message: "Пожалуйста введите ваше имя пользователя!",
+          },
+        ]}
       >
         <Input />
       </Form.Item>
 
       <Form.Item<FieldType>
-        label="Password"
+        label="Пароль"
         name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[{ required: true, message: "Пожалуйста введите ваш пароль!" }]}
       >
         <Input.Password />
       </Form.Item>
 
       <Form.Item label={null}>
         <Button type="primary" htmlType="submit">
-          Submit
+          Войти
         </Button>
       </Form.Item>
     </Form>

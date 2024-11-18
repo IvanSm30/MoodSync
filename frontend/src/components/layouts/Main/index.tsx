@@ -27,12 +27,18 @@ const Main = () => {
         </Button>
       </Flex>
       <Flex justify="space-around" align="flex-end">
-        <Button onClick={onClickDiary} shape="round">
-          Дневник
-        </Button>
-        <Button onClick={onClickAnalytics} shape="round">
-          Аналитика
-        </Button>
+        <div>
+          <p>Есть мысли, которые стоит зафиксировать?</p>
+          <Button onClick={onClickDiary} shape="round">
+            Дневник
+          </Button>
+        </div>
+        <div>
+          <p>Хочу посмотреть аналитику моего состояния</p>
+          <Button onClick={onClickAnalytics} shape="round">
+            Аналитика
+          </Button>
+        </div>
       </Flex>
     </>
   );

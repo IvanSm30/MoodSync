@@ -5,12 +5,13 @@ module.exports = merge(common, {
   mode: "development",
   devtool: "inline-source-map",
   devServer: {
+    historyApiFallback: true,
     host: "0.0.0.0",
     port: 9900,
     proxy: [
       {
         context: ["/api"],
-        target: "http://localhost",
+        target: "http://localhost:8000",
       },
     ], 
   },
