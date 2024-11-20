@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
-
-from backend.shemas import AuthRequest
+from sqlalchemy import select
+from database import User, new_session
+from shemas import AuthRequest
 
 json_db = [
     {"id": 1, "name": "ivan", "password": "ivan"},
@@ -12,7 +13,14 @@ router = APIRouter(prefix="/api")
 
 @router.post("/auth")
 async def auth(request: AuthRequest):
-    for item in json_db:
-        if request.name == item["name"] and request.password == item["password"]:
+    async with new_session() as session:
+        user = await session.execute(
+            select(User).where(
+                User.name == request.name, User.password == request.password
+            )
+        )
+        user = user.scalar_one_or_none()
+        if user:
             return {"message": f"Authenticated: {request.name}"}
-    raise HTTPException(status_code=401, detail="Invalid credentials")
+        else:
+            raise HTTPException(status_code=401, detail="Invalid credentials")
