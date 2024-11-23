@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, FormProps, Input } from "antd";
+import { Button, Form, FormProps, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 type FieldType = {
@@ -9,13 +9,8 @@ type FieldType = {
 
 const Auth = () => {
   const navigate = useNavigate();
-  // const [name, setName] = useState<string | undefined>("");
-  // const [password, setPassword] = useState<string | undefined>("");
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    // setName(values.username);
-    // setPassword(values.password);
-
     fetch("/api/auth", {
       method: "POST",
       headers: {
@@ -30,56 +25,69 @@ const Auth = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        navigate("/home");
+        message.success("Авторизация прошла успешно");
+        navigate("/prom");
         return response.json();
       })
-      .catch((error) => {
-        console.error("Error:", error);
+      .catch((_error) => {
+        message.error("Неправильные данные");
       });
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     _errorInfo
-  ) => {};
+  ) => {
+    message.error("Произошла ошибка");
+  };
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
     >
-      <Form.Item<FieldType>
-        label="Имя пользователя"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: "Пожалуйста введите ваше имя пользователя!",
-          },
-        ]}
+      <Form
+        name="basic"
+        labelCol={{ span: 10 }}
+        wrapperCol={{ span: 50 }}
+        style={{ maxWidth: 600 }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        <Input />
-      </Form.Item>
+        <Form.Item<FieldType>
+          label="Имя пользователя"
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: "Пожалуйста введите ваше имя пользователя!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item<FieldType>
-        label="Пароль"
-        name="password"
-        rules={[{ required: true, message: "Пожалуйста введите ваш пароль!" }]}
-      >
-        <Input.Password />
-      </Form.Item>
+        <Form.Item<FieldType>
+          label="Пароль"
+          name="password"
+          rules={[
+            { required: true, message: "Пожалуйста введите ваш пароль!" },
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
 
-      <Form.Item label={null}>
-        <Button type="primary" htmlType="submit">
-          Войти
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item style={{paddingLeft: "145px"}}>
+          <Button type="primary" htmlType="submit">
+            Войти
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 
