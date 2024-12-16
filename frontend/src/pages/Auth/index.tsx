@@ -3,7 +3,7 @@ import { Button, Form, FormProps, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 type FieldType = {
-  username?: string;
+  login?: string;
   password?: string;
 };
 
@@ -17,7 +17,7 @@ const Auth = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: values.username,
+        login: values.login,
         password: values.password,
       }),
     })
@@ -41,53 +41,36 @@ const Auth = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
+    <>
       <Form
         name="basic"
-        labelCol={{ span: 10 }}
-        wrapperCol={{ span: 50 }}
-        style={{ maxWidth: 600 }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete="off"
+        style={{ maxWidth: 360 }}
       >
         <Form.Item<FieldType>
-          label="Имя пользователя"
-          name="username"
+          name="login"
           rules={[
             {
               required: true,
-              message: "Пожалуйста введите ваше имя пользователя!",
             },
           ]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item<FieldType>
-          label="Пароль"
-          name="password"
-          rules={[
-            { required: true, message: "Пожалуйста введите ваш пароль!" },
-          ]}
-        >
+        <Form.Item<FieldType> name="password" rules={[]}>
           <Input.Password />
         </Form.Item>
 
-        <Form.Item style={{paddingLeft: "145px"}}>
+        <Form.Item>
           <Button type="primary" htmlType="submit">
-            Войти
+            Вход
           </Button>
+          <a href="/reg">Регистрация</a>
         </Form.Item>
       </Form>
-    </div>
+    </>
   );
 };
 
