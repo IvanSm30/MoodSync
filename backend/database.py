@@ -1,9 +1,12 @@
+import os
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from datetime import datetime
 
-engine = create_async_engine("sqlite+aiosqlite:///users.db")
+
+# engine = create_async_engine("sqlite+aiosqlite:///users.db")
+engine = create_async_engine("sqlite+aiosqlite:///mood_sync_db.db")
 new_session = async_sessionmaker(engine, expire_on_commit=False)
-
 
 class Model(DeclarativeBase):
     pass
@@ -12,15 +15,9 @@ class Model(DeclarativeBase):
 class User(Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    login: Mapped[str]
+    age: Mapped[int]
+    gender: Mapped[str]
+    username: Mapped[str]
     password: Mapped[str]
-
-
-async def create_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Model.metadata.create_all)
-
-
-async def delete_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Model.metadata.drop_all)
+    registrationDate: Mapped[datetime]
