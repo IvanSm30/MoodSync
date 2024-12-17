@@ -6,6 +6,7 @@ import Home from "src/pages/Home";
 import { Navigate } from "react-router-dom";
 import Prom from "./pages/Prom";
 import Register from "./pages/Registration";
+import Servey from "./pages/Survey";
 
 export const routes = [
   {
@@ -31,6 +32,10 @@ export const routes = [
   {
     path: "/reg",
     element: <Register />
+  },
+  {
+    path: "survey",
+    element: <Servey />
   },
   {
     path: "*",
