@@ -4,6 +4,8 @@ import Diary from "./pages/Diary";
 import Analytics from "./pages/Analytics";
 import Home from "src/pages/Home";
 import { Navigate } from "react-router-dom";
+import Prom from "./pages/Prom";
+import Register from "./pages/Registration";
 
 export const routes = [
   {
@@ -21,6 +23,14 @@ export const routes = [
   {
     path: "/analytics",
     element: <Analytics />,
+  },
+  {
+    path: "/prom",
+    element: <Prom />,
+  },
+  {
+    path: "/reg",
+    element: <Register />
   },
   {
     path: "*",

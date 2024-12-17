@@ -1,23 +1,30 @@
 import React from "react";
-import { Button, Form, FormProps, Input, message } from "antd";
+import { Button, Form, FormProps, Input, message, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 type FieldType = {
+  username?: string;
+  age?: number;
+  gender?: string;
   login?: string;
   password?: string;
 };
 
-const Auth = () => {
+const { Option } = Select;
+
+const Register = () => {
   const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    fetch("/api/auth", {
+    fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        username: values.username,
+        age: values.age,
+        gender: values.gender,
         login: values.login,
         password: values.password,
       }),
@@ -26,12 +33,12 @@ const Auth = () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        message.success("Авторизация прошла успешно");
+        message.success("Регистрация прошла успешно");
         navigate("/prom");
         return response.json();
       })
       .catch((_error) => {
-        message.error("Неправильные данные");
+        message.error("Что-то пошло не так!");
       });
   };
 
@@ -53,56 +60,69 @@ const Auth = () => {
       <Form
         name="basic"
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         style={{ maxWidth: 350, textAlign: "center" }}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
+        <Form.Item<FieldType>
+          name="username"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input placeholder="Ваше имя" />
+        </Form.Item>
+        <Form.Item<FieldType>
+          name="age"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input placeholder="Ваш возраст" />
+        </Form.Item>
+        <Form.Item
+          style={{ textAlign: "left" }}
+          name="gender"
+          rules={[{ required: true }]}
+        >
+          <Select placeholder="Выберите пол">
+            <Option value="male">Мужчина</Option>
+            <Option value="female">Женщина</Option>
+          </Select>
+        </Form.Item>
         <Form.Item<FieldType>
           name="login"
           rules={[
             {
               required: true,
-              message: "Введите логин!",
             },
           ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Имя пользователя" />
+          <Input placeholder="Имя пользователя" />
         </Form.Item>
-
         <Form.Item<FieldType>
           name="password"
           rules={[
             {
               required: true,
-              message: "Введите пароль!",
             },
           ]}
         >
-          <Input.Password
-            prefix={<LockOutlined />}
-            type="password"
-            placeholder="Пароль"
-          />
+          <Input.Password type="password" placeholder="Пароль" />
         </Form.Item>
 
         <Form.Item>
           <Button style={{ width: 350 }} type="primary" htmlType="submit">
-            Вход
+            Зарегистрироваться
           </Button>
-        </Form.Item>
-        <Form.Item
-          style={{
-            width: 350,
-            borderRadius: "8px",
-            backgroundColor: "#1677ff",
-          }}
-        >
-          <a href="/reg" style={{ color: "white" }}>
-            Регистрация
-          </a>
         </Form.Item>
       </Form>
     </div>
   );
 };
 
-export default Auth;
+export default Register;

@@ -19,7 +19,7 @@ const Main = () => {
         vertical={true}
         justify="center"
         align="center"
-        style={{ height: "90vh" }}
+        style={{ height: "80vh" }}
       >
         <h1>Оцени свое настроение</h1>
         <Button onClick={onClickPlus} shape="circle" size="large">
