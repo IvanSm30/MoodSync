@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, FormProps, Input, message } from "antd";
 import { useNavigate } from "react-router-dom";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 
 type FieldType = {
   login?: string;
@@ -41,36 +42,66 @@ const Auth = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       <Form
         name="basic"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        style={{ maxWidth: 360 }}
+        style={{ maxWidth: 350, textAlign: "center" }}
       >
         <Form.Item<FieldType>
           name="login"
           rules={[
             {
               required: true,
+              message: "Введите логин!",
             },
           ]}
         >
-          <Input />
+          <Input prefix={<UserOutlined />} placeholder="Имя пользователя" />
         </Form.Item>
 
-        <Form.Item<FieldType> name="password" rules={[]}>
-          <Input.Password />
+        <Form.Item<FieldType>
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "Введите пароль!",
+            },
+          ]}
+        >
+          <Input.Password
+            prefix={<LockOutlined />}
+            type="password"
+            placeholder="Пароль"
+          />
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button style={{ width: 350 }} type="primary" htmlType="submit">
             Вход
           </Button>
-          <a href="/reg">Регистрация</a>
+        </Form.Item>
+        <Form.Item
+          style={{
+            width: 350,
+            borderRadius: "8px",
+            backgroundColor: "#1677ff",
+          }}
+        >
+          <a href="/reg" style={{ color: "white" }}>
+            Регистрация
+          </a>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 

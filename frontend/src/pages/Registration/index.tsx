@@ -49,11 +49,18 @@ const Register = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
       <Form
         name="basic"
         onFinish={onFinish}
-        style={{ maxWidth: 360 }}
+        style={{ maxWidth: 350, textAlign: "center" }}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
@@ -77,7 +84,11 @@ const Register = () => {
         >
           <Input placeholder="Ваш возраст" />
         </Form.Item>
-        <Form.Item name="gender" rules={[{ required: true }]}>
+        <Form.Item
+          style={{ textAlign: "left" }}
+          name="gender"
+          rules={[{ required: true }]}
+        >
           <Select placeholder="Выберите пол">
             <Option value="male">Мужчина</Option>
             <Option value="female">Женщина</Option>
@@ -105,12 +116,12 @@ const Register = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Зарегестрироваться
+          <Button style={{ width: 350 }} type="primary" htmlType="submit">
+            Зарегистрироваться
           </Button>
         </Form.Item>
       </Form>
-    </>
+    </div>
   );
 };
 
