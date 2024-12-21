@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Main = () => {
   const navigate = useNavigate();
 
-  const onClickPlus = () => {};
+  const onClickPlus = () => {navigate("/survey")};
   const onClickDiary = () => {
     navigate("/diary");
   };
